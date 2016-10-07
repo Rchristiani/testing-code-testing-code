@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Testing code testing code....😵</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.1.0/mocha.min.css">
+	<link rel="stylesheet" href="codemirror/lib/codemirror.css">
+	<link rel="stylesheet" href="codemirror/theme/seti.css">
+	<style>
+		#editor,
+		button{
+			width: 500px;
+			margin: 0 auto;
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<h2>Test that code</h2>
+	<div id="editor" class=""></div>
+	<button>Test</button>
+	<script src="codemirror/lib/codemirror.js"></script>
+	<script src="codemirror/mode/javascript/javascript.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+	<script>
+		//Code mirror for right text editing.
+		const codeEditor = CodeMirror(document.getElementById('editor'), {
+			value: "function myScript(){return 100;}\n",
+			mode: 'javascript',
+			theme: 'seti',
+			lineNumbers: true
+		});
+
+
+	
+		document.querySelector('button').addEventListener('click', function() {
+			//Get the value from the eidtor
+			const answer = codeEditor.getValue();
+			//Send it to the server
+			$.ajax({
+				url:'http://localhost:3600/test',
+				method:'POST',
+				dataType: 'json',
+				data: { answer } 
+			})
+			.then(res => console.log(res));
+		});
+	</script>
+</body>
+</html>
